@@ -39,7 +39,7 @@ namespace Calculadora_Xamarin
         }
 
 
-        // Método para botões numéricos
+        // Evento de botões numéricos
         private void ButtonNumero(object sender, EventArgs e)
         {
             try
@@ -127,6 +127,49 @@ namespace Calculadora_Xamarin
                 DisplayAlert("Alerta!", ex.Message, "OK");
             }
         }
+
+
+
+        //Evento de botões operacionais
+        private void ButtonOperacoes(object sender, EventArgs e)
+        {
+            Button button1 = (Button)sender;
+            string operacao = button1.CommandParameter.ToString();
+            string simbolo = "";
+
+
+            switch (operacao)
+            {
+                case "soma":
+                    op[o] = 1;
+                    simbolo = " + ";
+                    break;
+                case "subt":
+                    op[o] = 2;
+                    simbolo = " - ";
+                    break;
+                case "mult":
+                    op[o] = 3;
+                    simbolo = " x ";
+                    break;
+                case "div":
+                    simbolo = " / ";
+                    op[o] = 4;
+                    break;
+
+            }
+
+            if (Lbl_Resultado.Text != "0")
+            {
+
+                Lbl_Resultado.Text = Lbl_Resultado.Text + simbolo;
+            }
+
+            o++;
+        }
+
+
+
 
 
 
