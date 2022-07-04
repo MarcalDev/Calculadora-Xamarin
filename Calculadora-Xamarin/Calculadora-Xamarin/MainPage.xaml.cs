@@ -12,6 +12,7 @@ namespace Calculadora_Xamarin
     {
         // Valor variavel
         int[] n = new int[30];
+        int[] n2 = new int[30];
         int i = 0;
         int o = 0;
 
@@ -22,7 +23,6 @@ namespace Calculadora_Xamarin
         string sn1 = "";
 
         //Valor 2
-        float n2 = 0;
 
         // Representação do Valor 2
         string sn2 = "";
@@ -48,80 +48,42 @@ namespace Calculadora_Xamarin
                 //Armazena o valor passado pelo CommandParameter
                 int NumPressed = int.Parse(button1.CommandParameter.ToString());
 
-                n[i] = NumPressed;
-                i++;
-
-
-
-                // Operação exclusiva do número 0 
-                if (NumPressed == 0)
+                if (n[i] != 0)
                 {
-                    if (op[i] == 0)
+                    n2[i] = NumPressed;
+
+                    n[i] = int.Parse(n[i].ToString() + n2[i].ToString());
+
+                    if(o > 0)
                     {
-                        // Nenhum valor atribuído ao primeiro número
-                        if (n[i] == 0)
-                        {
-                            sn1 = n1.ToString() + "0";
-                            Lbl_Resultado.Text = Lbl_Resultado.Text + "0";
-                        }
+                        Lbl_Resultado.Text = Lbl_Resultado.Text + n2[i].ToString();
+
                     }
                     else
                     {
-                        // Nenhum valor atribuído ao segundo número
-                        if (n[i] != 0)
-                        {
-                            sn2 = sn2 + "0";
+                        Lbl_Resultado.Text = n[i].ToString();
 
-                            Lbl_Resultado.Text = Lbl_Resultado.Text + "0";
-                        }
                     }
                 }
-                //Operação para os números de 1 a 9
                 else
                 {
-                    if (op[i] == 0)
-                    {
-                        //if (resultado != 0)
-                        //{
-                        //    n1 = resultado;
-                        //}
-                        // Nenhum valor atribuído ao primeiro número
-                        if (n[i] == 0)
-                        {
+                    n[i] = NumPressed;
 
-                            sn1 = n[i].ToString();
-                            Lbl_Resultado.Text = NumPressed.ToString();
-                        }
-                        else
-                        {
-                            sn1 = sn1 + NumPressed.ToString();
-                            Lbl_Resultado.Text = Lbl_Resultado.Text + NumPressed.ToString();
-                        }
+                    if (o > 0)
+                    {
+
+                        Lbl_Resultado.Text = Lbl_Resultado.Text + n[i].ToString();
 
                     }
                     else
                     {
-                        //if (resultado != 0)
-                        //{
-                        //    n1 = resultado;
-                        //}
-                        // Nenhum valor atribuído ao segundo número
-                        if (n[i] == 0)
-                        {
-
-                            sn2 = n[i].ToString();
-                            Lbl_Resultado.Text = Lbl_Resultado.Text + NumPressed.ToString();
-                        }
-                        else
-                        {
-                            sn2 = sn2 + NumPressed.ToString();
-                            Lbl_Resultado.Text = Lbl_Resultado.Text + NumPressed.ToString();
-                        }
+                        Lbl_Resultado.Text = n[i].ToString();
                     }
-
                 }
-            }
-            catch (Exception ex)
+
+                
+
+            } catch (Exception ex)
             {
 
                 DisplayAlert("Alerta!", ex.Message, "OK");
@@ -130,7 +92,7 @@ namespace Calculadora_Xamarin
 
 
 
-        //Evento de botões operacionais
+        // Evento de botões operacionais
         private void ButtonOperacoes(object sender, EventArgs e)
         {
             Button button1 = (Button)sender;
@@ -165,11 +127,121 @@ namespace Calculadora_Xamarin
                 Lbl_Resultado.Text = Lbl_Resultado.Text + simbolo;
             }
 
+            i++;
             o++;
         }
 
+        // Evento do botão resultado
+        private void ButtonResult(object sender, EventArgs e)
+        {
+
+            for (o = 0; o < i; o++)
+            {
+                if (resultado == 0)
+                {
+                    switch (op[o])
+                    {
+                        case 1:
+                            resultado = n[0] + n[o+1];
+                            break;
+
+                        case 2:
+                            resultado = n[0] - n[o+1];
+                            break;
+
+                        case 3:
+                            resultado = n[0] * n[o+1];
+                            break;
+
+                        case 4:
+                            resultado = n[0] / n[o+1];
+                            break;
+                        case 5:
+                            resultado = (n[0] / 100) * n[o+1];
+                            break;
+                    }
+                }
+                else
+                {
+                    switch (op[o])
+                    {
+                        case 1:
+                            resultado = resultado + n[o+1];
+                            break;
+
+                        case 2:
+                            resultado = resultado - n[o+1]; ;
+                            break;
+
+                        case 3:
+                            resultado = resultado * n[o+1];
+                            break;
+
+                        case 4:
+                            resultado = resultado / n[o+1];
+                            break;
+                        case 5:
+                            resultado = (resultado / 100) * n[o+1];
+                            break;
+                    }
+                }
+            }
+
+            Lbl_Resultado.Text = resultado.ToString();
 
 
+        }
+
+        // Evento botões diversos
+        private void ButtonDiversos(object sender, EventArgs e)
+        {
+            try
+            {
+                Button button1 = (Button)sender;
+                int d = int.Parse(button1.CommandParameter.ToString());
+
+                switch (d)
+                {
+                    // Botão AC
+                    case 1:
+                        Lbl_Resultado.Text = "0";
+                        resultado = 0;
+
+                        
+                        for (i = 0; i <= 29; i++)
+                        {
+                            n[i] = 0;
+                        }
+
+                        for (o = 0; o <= 4; o++)
+                        {
+                            op[o] = 0;
+                        }
+
+                        i = 0;
+                        o = 0;
+
+                        sn1 = "";
+                        sn2 = "";
+                        break;
+                    // Botão Inverter sinal
+                    case 2:
+
+                        break;
+                    // Botão Vírgula
+                    case 3:
+
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                DisplayAlert("Alerta", ex.Message, "OK");
+            }
+
+
+
+        }
 
 
 
