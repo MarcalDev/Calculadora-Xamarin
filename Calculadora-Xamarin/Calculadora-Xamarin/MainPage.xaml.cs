@@ -11,21 +11,22 @@ namespace Calculadora_Xamarin
     public partial class MainPage : ContentPage
     {
         // Valor variavel
-        int[] n = new int[30];
+        int[] n = new int[6];
         int[] n2 = new int[30];
         int i = 0;
         int o = 0;
+        int g = 0;
 
         // Valor 01
-        float n1 = 0;
+        //float n1 = 0;
 
         // Representação do Valor 1
-        string sn1 = "";
+        //string sn1 = "";
 
         //Valor 2
 
         // Representação do Valor 2
-        string sn2 = "";
+        //string sn2 = "";
 
         //Índice de operação matemática
         int[] op = new int[5];
@@ -44,43 +45,51 @@ namespace Calculadora_Xamarin
         {
             try
             {
-                Button button1 = (Button)sender;
-                //Armazena o valor passado pelo CommandParameter
-                int NumPressed = int.Parse(button1.CommandParameter.ToString());
-
-                if (n[i] != 0)
+                if(g <= 4)
                 {
-                    n2[i] = NumPressed;
+                    Button button1 = (Button)sender;
+                    //Armazena o valor passado pelo CommandParameter
+                    int NumPressed = int.Parse(button1.CommandParameter.ToString());
 
-                    n[i] = int.Parse(n[i].ToString() + n2[i].ToString());
-
-                    if(o > 0)
+                    if (n[i] != 0)
                     {
-                        Lbl_Resultado.Text = Lbl_Resultado.Text + n2[i].ToString();
+                        n2[i] = NumPressed;
 
+                        n[i] = int.Parse(n[i].ToString() + n2[i].ToString());
+
+                        if (o > 0)
+                        {
+                            Lbl_Resultado.Text = Lbl_Resultado.Text + n2[i].ToString();
+
+                        }
+                        else
+                        {
+                            Lbl_Resultado.Text = n[i].ToString();
+
+                        }
                     }
                     else
                     {
-                        Lbl_Resultado.Text = n[i].ToString();
+                        n[i] = NumPressed;
 
+                        if (o > 0)
+                        {
+
+                            Lbl_Resultado.Text = Lbl_Resultado.Text + n[i].ToString();
+
+                        }
+                        else
+                        {
+                            Lbl_Resultado.Text = n[i].ToString();
+                        }
                     }
                 }
                 else
                 {
-                    n[i] = NumPressed;
-
-                    if (o > 0)
-                    {
-
-                        Lbl_Resultado.Text = Lbl_Resultado.Text + n[i].ToString();
-
-                    }
-                    else
-                    {
-                        Lbl_Resultado.Text = n[i].ToString();
-                    }
+                    DisplayAlert("Alerta", "Número excedente a 5 digitos", "OK");
                 }
-
+                
+                g++;
                 
 
             } catch (Exception ex)
@@ -129,6 +138,7 @@ namespace Calculadora_Xamarin
 
             i++;
             o++;
+            g = 0;
         }
 
         // Evento do botão resultado
@@ -188,6 +198,7 @@ namespace Calculadora_Xamarin
             }
 
             Lbl_Resultado.Text = resultado.ToString();
+            LimpaTudo();
 
 
         }
@@ -207,22 +218,10 @@ namespace Calculadora_Xamarin
                         Lbl_Resultado.Text = "0";
                         resultado = 0;
 
-                        
-                        for (i = 0; i <= 29; i++)
-                        {
-                            n[i] = 0;
-                        }
+                        LimpaTudo();
 
-                        for (o = 0; o <= 4; o++)
-                        {
-                            op[o] = 0;
-                        }
 
-                        i = 0;
-                        o = 0;
 
-                        sn1 = "";
-                        sn2 = "";
                         break;
                     // Botão Inverter sinal
                     case 2:
@@ -241,6 +240,23 @@ namespace Calculadora_Xamarin
 
 
 
+        }
+
+        public void LimpaTudo()
+        {
+            for (i = 0; i <= 5; i++)
+            {
+                n[i] = 0;
+            }
+
+            for (o = 0; o <= 4; o++)
+            {
+                op[o] = 0;
+            }
+
+            i = 0;
+            o = 0;
+            g = 0;
         }
 
 
